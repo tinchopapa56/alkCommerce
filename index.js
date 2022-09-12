@@ -1,7 +1,5 @@
 import Express from "express";
 import Mongoose from "mongoose";
-import Cards from "./dbCards.js";
-import Workers from "./workers.js";
 import Products from "./products.js";
 import Cors from "cors";
 
@@ -29,29 +27,11 @@ const connectionUrl = `mongodb+srv://tinchoDevelops:${pass}@alkemycommerce.ta60z
 app.get("/", (req, res) => {
     res.status(200).send("Server created bien!")
 })
-app.post("/tinder/cards", (req, res) => {
-    const dbCard = req.body;
 
-    Cards.create(dbCard, (err,data)=>{
-        if(err){ res.status(500).send(err) }
-        else{ res.status(201).send(data) }
-    })
-})
+//Products
 
-app.get("/tinder/cards", (req, res) => {
-    Cards.find( (err,data) => {
-        if(err){ 
-            res.status(500).send(err)
-        }else{ 
-            res.status(200).send(data)
-        }
-    })
-})
-
-//workers
-
-app.get("/workers", (req, res) => {
-    Workers.find( (err,data) => {
+app.get("/products", (req, res) => {
+    Products.find( (err,data) => {
         if(err) {
             res.status(500).send(err);
         } else {
@@ -59,10 +39,10 @@ app.get("/workers", (req, res) => {
         }
     })
 })
-app.post("/workers", (req, res) => {
-    const workerCard = req.body;
+app.post("/products", (req, res) => {
+    const productCard = req.body;
 
-    Workers.create(workerCard, (err,data)=>{
+    Products.create(productCard, (err,data)=>{
         if(err) {
             res.status(500).send(err) 
         } else {
@@ -70,25 +50,25 @@ app.post("/workers", (req, res) => {
         }
     })
 })
-app.delete("/workers/:workerId", (req,res) =>{
-    const workerId = req.params.workerId;
+app.delete("/products/:productId", (req,res) =>{
+    const productId = req.params.productId;
 
-    Workers.findById(workerId, (err, worker) =>{
+    Products.findById(productId, (err, product) =>{
         if(err) {
-            res.status(500).send({message: `Error finding worker id: ${err}`});
+            res.status(500).send({message: `Error finding product id: ${err}`});
         } else {
-            worker.remove(err => {
-                if(err) res.status(500).send({message: `Error REMOVING worker: ${err}`});
-                res.status(200).send({message: "Worker SUCCESFULLY removed"})
+            product.remove(err => {
+                if(err) res.status(500).send({message: `Error REMOVING product: ${err}`});
+                res.status(200).send({message: "product SUCCESFULLY removed"})
             })
         }
     })
 })
-app.put("/workers/:workerId", (req, res) =>{
-    let workerId = req.params.workerId;
+app.put("/product/:productId", (req, res) =>{
+    let productId = req.params.productId;
     let updateBody = req.body;
 
-    Workers.findByIdAndUpdate(workerId, updateBody, (err, workerUpdated) => {
+    Products.findByIdAndUpdate(productId, updateBody, (err, productUpdated) => {
         if(err){
             res.status(500).send({message: `Error finding ID to update: ${err}`});
         }else{
