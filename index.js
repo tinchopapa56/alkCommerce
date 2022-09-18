@@ -64,7 +64,7 @@ app.delete("/products/:productId", (req,res) =>{
         }
     })
 })
-app.put("/product/:productId", (req, res) =>{
+app.put("/products/:productId", (req, res) =>{
     let productId = req.params.productId;
     let updateBody = req.body;
 
